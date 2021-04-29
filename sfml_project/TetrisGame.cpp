@@ -52,12 +52,7 @@ void tetrisPlay() {
 	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris Game");
 	
 	int n = 3;
-	for (int i = 0; i < 4; i++)
-	{
-		a[i].x = figures[n][i] % 2;
-		a[i].y = figures[n][i] / 2;
-	}
-
+	
 	while (window.isOpen())
 	{
 		float time = clock.getElapsedTime().asSeconds();
@@ -98,10 +93,31 @@ void tetrisPlay() {
 				a[i].y = a[1].y + y;
 			}
 
+		n = 1;
+		//Инициализируем тип
+		if (a[0].x == 0)
+			for (int i = 0; i < 4; i++)
+			{
+				a[i].x = figures[n][i] % 2;
+				a[i].y = figures[n][i] / 2;
+			}
+
 		//Гравитация
 		if (timer > delay)
 		{
-			for (int i = 0; i < 4; i++) a[i].y += 1;
+			for (int i = 0; i < 4; i++) { b[i] = a[i]; a[i].y += 1; }
+			if (!check())
+			{
+				for (int i = 0; i < 4; i++) field[b[i].y][b[i].x] = colorNum;
+				colorNum = 1 + rand() % 7;
+				int n = rand() % 7;
+				for (int i = 0; i < 4; i++)
+				{
+					a[i].x = figures[n][i] % 2;
+					a[i].y = figures[n][i] / 2;
+				}
+
+			}
 			timer = 0;
 		}
 
