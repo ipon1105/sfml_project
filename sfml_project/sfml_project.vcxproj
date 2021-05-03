@@ -152,7 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SaperGame.cpp" />
     <ClCompile Include="TetrisGame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +161,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sourse.h" />
+    <ClInclude Include="SaperGame.h" />
     <ClInclude Include="TetrisGame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="D:\work_zone\Resourses\SFML-main\Создание игры «Сапер» на С++ и SFML\images\sapertiles.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
