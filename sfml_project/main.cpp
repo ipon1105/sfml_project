@@ -3,12 +3,12 @@
 #include <Windows.h>
 #include "TetrisGame.h"
 #include "SaperGame.h"
+#include "PuzzleGame.h"
 
 using namespace sf;
 
 int main() {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
 	//tetrisPlay();
-	saperPlay();
+	//saperPlay();
+	puzzlePlay();
 }

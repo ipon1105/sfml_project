@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PuzzleGame.cpp" />
     <ClCompile Include="SaperGame.cpp" />
     <ClCompile Include="TetrisGame.cpp" />
   </ItemGroup>
@@ -161,6 +162,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PuzzleGame.h" />
     <ClInclude Include="SaperGame.h" />
     <ClInclude Include="TetrisGame.h" />
   </ItemGroup>
