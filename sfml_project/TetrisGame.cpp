@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <time.h>
 
 using namespace sf;
@@ -18,40 +19,55 @@ int figures[7][4] = {
 		3,5,7,6, // буквой J
 		2,3,4,5, // квадрат
 };
-int dx = 0;
 
 float timer = 0;
 float delay = 0.3;
 
+int colorNum = 2;	//цвет фигуры
+int n = 1;			//тип фигуры
+int dx = 0;			//смещение по горизонтали
+
 bool rotate = false;
+bool beginGame = true;
 
 struct Point {
 	int x, y;
 };
 
-Point a[4], b[4];
+Point now[4], tmp[4];
 
+//Проверка столкновения
 bool check()
 {
 	for (int i = 0; i < 4; i++)
-		if (a[i].x < 0 || a[i].x >= FIELD_WIDTH || a[i].y >= FIELD_HEIGHT) return 0;
-		else if (field[a[i].y][a[i].x]) return 0;
+		if (now[i].x < 0 || now[i].x >= FIELD_WIDTH || now[i].y >= FIELD_HEIGHT) return 0;
+		else if (field[now[i].y][now[i].x]) return 0;
 
 	return 1;
 }
 
+//Основной код игры
 void tetrisPlay() {
 	Clock   clock;
 	Texture texture;
+	Texture texture_background;
+	Texture texture_frame;
 	Sprite  sprite;
+	Sprite  sprite_background;
+	Sprite  sprite_frame;
 	
-	texture.loadFromFile("C:\\Users\\ipon1105\\source\\repos\\sfml_project\\sfml_project\\images\\tiles.png", IntRect(0, 0, 18, 18));
-	sprite.setTexture(texture);
+	texture.loadFromFile("C:\\Users\\ipon1105\\source\\repos\\sfml_project\\sfml_project\\images\\tiles.png");
+	texture_background.loadFromFile("C:\\Users\\ipon1105\\source\\repos\\sfml_project\\sfml_project\\images\\background.png");
+	texture_frame.loadFromFile("C:\\Users\\ipon1105\\source\\repos\\sfml_project\\sfml_project\\images\\frame.png");
 
-	srand(time(0));
-	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris Game");
+	sprite.setTexture(texture);
+	sprite_background.setTexture(texture_background);
+	sprite_frame.setTexture(texture_frame);
 	
-	int n = 3;
+	srand(time(0));
+	n = rand() % 7;
+
+	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tetris Game");
 	
 	while (window.isOpen())
 	{
@@ -71,65 +87,100 @@ void tetrisPlay() {
 				else if (event.key.code == Keyboard::Right) dx = 1;
 		}
 
+		//Ускорение
+		if (Keyboard::isKeyPressed(Keyboard::Down)) delay = 0.05;
+		
 		//Движение
 		for (int i = 0; i < 4; i++) {
-			b[i] = a[i];
-			a[i].x += dx;
+			tmp[i] = now[i];
+			now[i].x += dx;
 		}
-
+		
 		//Проверка столкновения
 		if (!check()) {
 			for (int i = 0; i < 4; i++)
-				a[i] = b[i];
+				now[i] = tmp[i];
 		}
 
-		//Вращение//Point p = a[1];//
 		if (rotate)
+		{
 			for (int i = 0; i < 4; i++)
 			{
-				int x = a[i].y - a[1].y; // y - y0
-				int y = a[i].x - a[1].x; // x - x0
-				a[i].x = a[1].x - x;
-				a[i].y = a[1].y + y;
+				int x = now[i].y - now[1].y; // y - y0
+				int y = now[i].x - now[1].x; // x - x0
+				now[i].x = now[1].x - x;
+				now[i].y = now[1].y + y;
 			}
-
-		n = 1;
-		//Инициализируем тип
-		if (a[0].x == 0)
-			for (int i = 0; i < 4; i++)
-			{
-				a[i].x = figures[n][i] % 2;
-				a[i].y = figures[n][i] / 2;
+			if (!check()) {
+				for (int i = 0; i < 4; i++)
+					now[i] = tmp[i];
 			}
+		}
 
 		//Гравитация
 		if (timer > delay)
 		{
-			for (int i = 0; i < 4; i++) { b[i] = a[i]; a[i].y += 1; }
+			for (int i = 0; i < 4; i++) { tmp[i] = now[i]; now[i].y += 1; }
 			if (!check())
 			{
-				for (int i = 0; i < 4; i++) field[b[i].y][b[i].x] = colorNum;
+				for (int i = 0; i < 4; i++) field[tmp[i].y][tmp[i].x] = colorNum;
 				colorNum = 1 + rand() % 7;
-				int n = rand() % 7;
+				n = rand() % 7;
 				for (int i = 0; i < 4; i++)
 				{
-					a[i].x = figures[n][i] % 2;
-					a[i].y = figures[n][i] / 2;
+					now[i].x = figures[n][i] % 2;
+					now[i].y = figures[n][i] / 2;
 				}
 
 			}
 			timer = 0;
+
 		}
 
-		rotate = false;
-		dx = 0;
+		//инициализация нового объекта
+		if (beginGame) {
+			beginGame = false;
+			n = rand() % 7;
+			for (int i = 0; i < 4; i++) {
+				now[i].x = figures[(int)n][i] % 2;
+				now[i].y = figures[(int)n][i] / 2;
+			}
+		}
+		rotate = false;dx = 0;delay = 0.3;
+
+		int k = FIELD_HEIGHT - 1;
+		for (int i = FIELD_HEIGHT - 1; i > 0; i--)
+		{
+			int count = 0;
+			for (int j = 0; j < FIELD_WIDTH; j++)
+			{
+				if (field[i][j]) count++;
+				field[k][j] = field[i][j];
+			}
+			if (count < FIELD_WIDTH) k--;
+		}
 
 		window.clear(Color::White);
+		window.draw(sprite_background);
+		for (int i = 0;i < FIELD_HEIGHT;i++){
+			for (int j = 0; j < FIELD_WIDTH; j++)
+			{
+				if (field[i][j] == 0) continue;
+				sprite.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
+				sprite.setPosition(j * 18, i * 18);
+				sprite.move(28, 31);
+				window.draw(sprite);
+			}
+		}
 		for (int i = 0; i < 4; i++)
 		{
-			sprite.setPosition(a[i].x * 18, a[i].y * 18);
+			sprite.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
+			sprite.setPosition(now[i].x * 18, now[i].y * 18);
+			sprite.move(28, 31);
+
 			window.draw(sprite);
 		}
+		window.draw(sprite_frame);
 		window.display();
 	}
 }
