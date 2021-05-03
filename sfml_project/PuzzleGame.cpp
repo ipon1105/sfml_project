@@ -11,7 +11,7 @@ const int WINDOW_HEIGHT = FIELD_HEIGHT * SIZE_TILE;
 
 int field[FIELD_WIDTH][FIELD_HEIGHT] = { 0 };
 
-void fillMap() {
+void fillMyMap() {
 	
 }
 
@@ -19,8 +19,8 @@ void puzzlePlay() {
 	Texture texture;
 	Sprite sprite;
 
-	//texture.loadFromFile("C:\\Users\\ipon1105\\source\\repos\\sfml_project\\sfml_project\\images\\15.png");
-	//sprite.setTexture(texture);
+	texture.loadFromFile("C:\\Users\\ipon1105\\source\\repos\\sfml_project\\sfml_project\\images\\15.png");
+	sprite.setTexture(texture);
 
 	srand(time(0));
 
