@@ -152,8 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="PuzzleGame.cpp" />
     <ClCompile Include="SaperGame.cpp" />
+    <ClCompile Include="Test_1.cpp" />
     <ClCompile Include="TetrisGame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,8 +164,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyGame.h" />
     <ClInclude Include="PuzzleGame.h" />
     <ClInclude Include="SaperGame.h" />
+    <ClInclude Include="Test_1.h" />
     <ClInclude Include="TetrisGame.h" />
   </ItemGroup>
   <ItemGroup>

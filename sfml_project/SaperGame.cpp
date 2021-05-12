@@ -126,14 +126,16 @@ void saperPlay() {
 
 		bool win = true;
 		int t = 0;
+		int ft = 0;
 
 		//Проверяем на победу или проигрыш
 		for (int i = 0; i < FIELD_WIDTH; i++)
 			for (int j = 0; j < FIELD_HEIGHT; j++) {
 				if (fieldUp[i][j] == bomb) { live = false; text.setString(strLose); break; }
 				else if (fieldUp[i][j] == flag && fieldDown[i][j] == bomb) t++;
+				else if (fieldUp[i][j] == flag) ft++;
 			}
-		if (t == bombCount) { live = false; win = true; } else win = false;
+		if (ft == bombCount) { live = false; win = true; } else win = false;
 
 		window.clear(Color::White);
 				
