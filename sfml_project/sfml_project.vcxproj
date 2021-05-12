@@ -171,6 +171,7 @@
     <ClInclude Include="TetrisGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\ruins_mini_tileset.png" />
     <Image Include="D:\work_zone\Resourses\SFML-main\Создание игры «Сапер» на С++ и SFML\images\sapertiles.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -60,5 +60,8 @@
     <Image Include="D:\work_zone\Resourses\SFML-main\Создание игры «Сапер» на С++ и SFML\images\sapertiles.jpg">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="..\..\..\..\Downloads\ruins_mini_tileset.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>
